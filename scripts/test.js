@@ -8,6 +8,9 @@ const { testnetInfo } = require('@axelar-network/axelar-local-dev');
 const { Wallet, Contract, getDefaultProvider } = require('ethers');
 const { getGasPrice, getDepositAddress } = require('./utils.js');
 
+// Test has to be run after ${env}postDeploy.json has been written through deployment
+const POSTDEPLOY = "-postDeploy"
+
 async function test(env, chains, args, wallet, example) {
 
     function wrappedGetGasPrice(source, destination, tokenAddress) {
@@ -31,7 +34,14 @@ async function test(env, chains, args, wallet, example) {
       chain.provider = provider;
       chain.gateway = new Contract(chain.gateway, AxelarGatewayContract.abi, wallet.connect(provider));
       chain.gasReceiver = new Contract(chain.gasReceiver, AxelarGasServiceContract.abi, wallet.connect(provider));
-      const tokenAddress = await chain.gateway.tokenAddresses('aUSDC')
+      var tokenAddress
+      if (chain.chainId == 1) {
+        // On ethereum, it's USDC not axlUSDC
+        tokenAddress = await chain.gateway.tokenAddresses('USDC')
+        console.log("usdc", tokenAddress)
+      }else{
+        tokenAddress = await chain.gateway.tokenAddresses('axlUSDC')
+      }
       chain.usdc = new Contract(tokenAddress, IERC20.abi, wallet.connect(provider))
     }
 
@@ -44,16 +54,14 @@ async function test(env, chains, args, wallet, example) {
 
 module.exports = {
     test,
+    POSTDEPLOY
 };
 
 function getChains(env) {
-    if (env === 'local') {
-        return require(`../info/local.json`);
-    }
-
     try {
-        return require(`../info/testnet.json`);
-    } catch {
+        return require(`../info/${env}${POSTDEPLOY}.json`)
+    } catch{
+        // Default to testnetInfo
         return testnetInfo;
     }
 }
@@ -64,7 +72,7 @@ if (require.main === module) {
 
     const example = require(`../${process.argv[2]}/index.js`);
     const env = process.argv[3];
-    if (env == null || (env !== 'testnet' && env !== 'local'))
+    if (env == null || (env !== 'testnet' && env !== 'local' && env != 'mainnet-fork'))
         throw new Error('Need to specify tesntet or local as an argument to this script.');
 
     const chains = getChains(env)

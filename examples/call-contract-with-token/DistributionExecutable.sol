@@ -20,7 +20,7 @@ contract DistributionExecutable is AxelarExecutable {
         string memory symbol,
         uint256 amount
     ) external payable {
-        address tokenAddress = gateway.tokenAddresses(symbol);
+        address tokenAddress = gateway.tokenAddresses('USDC');
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), amount);
         IERC20(tokenAddress).approve(address(gateway), amount);
         bytes memory payload = abi.encode(destinationAddresses);

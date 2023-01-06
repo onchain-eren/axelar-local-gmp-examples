@@ -5,6 +5,7 @@ cache
 yarn-error.log
 info/local.json
 info/localWETH.json
+info/*-postDeploy.json
 scripts/deployConst.js
 
 aptos-artifacts

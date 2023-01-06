@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Ethereum",
+    "chainId": 1,
+    "gateway": "0x4F4495243837681061C4743b74B3eEdf548D56A5",
+    "gasReceiver": "0x4154CF6eea0633DD9c4933E76a077fD7E9260738",
+    "constAddressDeployer": "0x617179a15fEAa53Fa82ae80b0fc3E85b7359a748",
+    "tokens": {
+      "uusdc": "USDC"
+    },
+    "rpc": "http://localhost:8500/0",
+    "tokenName": "Ether",
+    "tokenSymbol": "ETH"
+  },
+  {
+    "name": "Avalanche",
+    "chainId": 43114,
+    "gateway": "0x5029C0EFf6C34351a0CEc334542cDb22c7928f78",
+    "gasReceiver": "0xB53C693544363912D2A034f70D9d98808D5E192a",
+    "constAddressDeployer": "0x617179a15fEAa53Fa82ae80b0fc3E85b7359a748",
+    "tokens": {
+      "uusdc": "axlUSDC"
+    },
+    "rpc": "http://localhost:8500/1",
+    "tokenName": "Avax",
+    "tokenSymbol": "AVAX"
+  },
+  {
+    "name": "Fantom",
+    "chainId": 250,
+    "gateway": "0x304acf330bbE08d1e512eefaa92F6a57871fD895",
+    "gasReceiver": "0x2879da536D9d107D6b92D95D7c4CFaA5De7088f4",
+    "constAddressDeployer": "0x617179a15fEAa53Fa82ae80b0fc3E85b7359a748",
+    "tokens": {
+      "uusdc": "axlUSDC"
+    },
+    "rpc": "http://localhost:8500/2",
+    "tokenName": "Fantom",
+    "tokenSymbol": "FTM"
+  },
+  {
+    "name": "Polygon",
+    "chainId": 137,
+    "gateway": "0x6f015F16De9fC8791b234eF68D486d2bF203FBA8",
+    "gasReceiver": "0xc8E0b617c388c7E800a7643adDD01218E14a727a",
+    "constAddressDeployer": "0x617179a15fEAa53Fa82ae80b0fc3E85b7359a748",
+    "tokens": {
+      "uusdc": "axlUSDC"
+    },
+    "rpc": "http://localhost:8500/3",
+    "tokenName": "Matic",
+    "tokenSymbol": "MATIC"
+  },
+  {
+    "name": "Moonbeam",
+    "chainId": 1284,
+    "gateway": "0x4F4495243837681061C4743b74B3eEdf548D56A5",
+    "gasReceiver": "0x27927CD55db998b720214205e598aA9AD614AEE3",
+    "constAddressDeployer": "0x617179a15fEAa53Fa82ae80b0fc3E85b7359a748",
+    "tokens": {
+      "uusdc": "axlUSDC"
+    },
+    "rpc": "http://localhost:8500/4",
+    "tokenName": "Glimmer",
+    "tokenSymbol": "GLMR"
+  }
+]

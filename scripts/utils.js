@@ -22,7 +22,7 @@ function getDepositAddress(env, source, destination, destinationAddress, symbol)
 }
 
 async function getGasPrice(env, source, destination, tokenAddress) {
-    if(env == 'local') return 1;
+    if(env == 'local' || env == 'mainnet-fork') return 1;
     if(env != 'testnet') throw Error('env needs to be "local" or "testnet".');
     const api_url ='https://devnet.api.gmp.axelarscan.io';
 

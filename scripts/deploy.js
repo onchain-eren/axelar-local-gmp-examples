@@ -7,6 +7,7 @@ const {
 } = require('@axelar-network/axelar-local-dev');
 const { Wallet, getDefaultProvider, utils, ContractFactory } = require('ethers');
 const { FormatTypes } = require('ethers/lib/utils');
+const {POSTDEPLOY} = require('./test');
 
 async function deploy(env, chains, wallet, example) {
 
@@ -50,7 +51,8 @@ async function deploy(env, chains, wallet, example) {
       // delete chain.wallet
     }
 
-    setJSON(chains, `./info/${env}.json`);
+    // Override the info file with additional deployment info
+    setJSON(chains, `./info/${env}${POSTDEPLOY}.json`);
 }
 
 module.exports = {
@@ -61,24 +63,21 @@ if (require.main === module) {
     const example = require(`../${process.argv[2]}/index.js`);
 
     const env = process.argv[3];
-    if (env == null || (env !== 'testnet' && env !== 'local'))
-        throw new Error('Need to specify testnet or local as an argument to this script.');
-    let temp;
+    if (env == null || (env !== 'testnet' && env !== 'local' && env !=='mainnet-fork'))
+        throw new Error('Need to specify testnet or local or mainnet-fork as an argument to this script.');
 
-    if (env === 'local') {
-        temp = require(`../info/local.json`);
-    } else {
-        try {
-            temp = require(`../info/testnet.json`);
-        } catch {
-            temp = testnetInfo;
-        }
+    var temp
+    try {
+        temp = require(`../info/${env}.json`)
+    } catch {
+        // Default to testnetInfo
+        temp = testnetInfo
     }
 
     const chains = temp;
 
     const privateKey = process.env.EVM_PRIVATE_KEY;
-    const wallet = new Wallet(privateKey);
+    const wallet = new Wallet(privateKey);   
 
     deploy(env, chains, wallet, example);
 }
