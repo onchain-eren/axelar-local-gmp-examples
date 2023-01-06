@@ -37,8 +37,8 @@ async function test(chains, wallet, options) {
 
     const args = options.args || [];
     const getGasPrice = options.getGasPrice;
-    const source = chains.find((chain) => chain.name === (args[0] || 'Avalanche'));
-    const destination = chains.find((chain) => chain.name === (args[1] || 'Fantom'));
+    const source = chains.find((chain) => chain.name === (args[0] || 'Ethereum'));
+    const destination = chains.find((chain) => chain.name === (args[1] || 'Polygon'));
     const amount = Math.floor(parseFloat(args[2])) * 1e6 || 5e6;
     const accounts = args.slice(3);
 
@@ -53,7 +53,7 @@ async function test(chains, wallet, options) {
     console.log('--- Initially ---');
     await logAccountBalances();
 
-    const gasLimit = 3e6;
+    const gasLimit = 6e6;
     const gasPrice = await getGasPrice(source, destination, AddressZero);
 
     const balance = await destination.usdc.balanceOf(accounts[0]);
@@ -65,7 +65,9 @@ async function test(chains, wallet, options) {
     console.log(source.contract.address);
     console.log(gasLimit * gasPrice);
     const sendTx = await source.contract.sendToMany(destination.name, destination.contract.address, accounts, 'axlUSDC', amount, {
-        // gasLimit: 3e7,
+        maxFeePerGas: BigInt("60000000000"), //to change if flashbots are not used, defaults to the mean network gas price
+        maxPriorityFeePerGas: BigInt("40000000000"), //to determine at execution time
+        gasLimit: gasLimit, //to change
         value: BigInt(Math.floor(gasLimit * gasPrice)),
     });
     console.log(sendTx);
